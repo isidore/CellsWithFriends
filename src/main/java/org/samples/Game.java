@@ -21,7 +21,7 @@ public class Game implements Paintable {
                     b.call(x - 1, y), b.call(x + 1, y),
                     b.call(x - 1, y + 1), b.call(x, y + 1), b.call(x + 1, y + 1)).where(c -> c.isAlive()).size();
             return (count == 3 || (b.call(x, y).isAlive() && count == 2)) ? Cell.Red : Cell.Dead;
-        };
+        }; return this
     }
 
     @Override
@@ -45,7 +45,6 @@ public class Game implements Paintable {
                 }
             }
         }
-
     }
 
     @Override
