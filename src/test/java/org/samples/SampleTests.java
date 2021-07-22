@@ -16,25 +16,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @UseReporter(ImageWebReporter.class)
 public class SampleTests
 {
+  /*
+  2. New cells have color
+   */
+
+  @Test
+  void testChildIsSameAsParents() {
+    // setup board with cell of three niegbors
+
+    // advance turn
+  }
+
   @Test
   public void testBlinker()
   {
-    Game game = new Game((x,y) -> 2 <= x && x <= 4 && y == 2);
+    Game game = new Game((x,y) -> ( 2 <= x && x <= 4 && y == 2) ? Cell.Red : Cell.Dead);
     AwtApprovals.verifySequence(2, (Integer n) -> {
       if (0 < n){
         SimpleLogger.variable("n",n);
         game.advanceTurn();}
       return game;
     });
+    // test color of cell
 
-    assertEquals(5, 5);
+    assertEquals(Cell.Red, game.getCell(3,2));
   }
 
   @Test
   void name() {
     Game game = new Game((x,y) -> {
       final Random random = new Random(y*x);
-      return random.nextBoolean();
+      return random.nextBoolean() ? Cell.Red : Cell.Dead;
     });
     AwtApprovals.verifySequence(6, (Integer n) -> {
       if (0 < n){
