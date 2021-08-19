@@ -3,7 +3,13 @@ package org.samples;
 import java.awt.*;
 
 public enum Cell {
-    Dead(Color.cyan), Red(Color.red), Green(Color.green), Yellow(Color.yellow), Gray(Color.gray);
+    Dead(Color.cyan),
+    Red(Color.red),
+    Green(Color.green),
+    Yellow(Color.yellow),
+    Gray(Color.gray),
+    Blue(Color.blue);
+
     private Color color;
 
     Cell(Color color) {

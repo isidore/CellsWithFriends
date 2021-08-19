@@ -14,14 +14,20 @@ public class Game implements Paintable {
         this.board = board;
     }
 
-    public void advanceTurn() {
+    public Game advanceTurn() {
         final Function2<Integer, Integer, Cell> b = this.board;
         this.board = (x, y) -> {
             final int count = Queryable.as(b.call(x - 1, y - 1), b.call(x, y - 1), b.call(x + 1, y - 1),
                     b.call(x - 1, y), b.call(x + 1, y),
                     b.call(x - 1, y + 1), b.call(x, y + 1), b.call(x + 1, y + 1)).where(c -> c.isAlive()).size();
-            return (count == 3 || (b.call(x, y).isAlive() && count == 2)) ? Cell.Red : Cell.Dead;
-        }; return this
+            if (b.call(x,y).isAlive()) {
+                    return count == 2 || count==3 ? b.call(x,y) : Cell.Dead;
+            } else {
+                return count == 3 ? Cell.Red : Cell.Dead;
+            }
+        };
+
+        return this;
     }
 
     @Override
