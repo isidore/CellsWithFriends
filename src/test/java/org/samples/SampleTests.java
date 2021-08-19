@@ -3,6 +3,7 @@ package org.samples;
 
 import com.spun.util.logger.SimpleLogger;
 import org.approvaltests.awt.AwtApprovals;
+import org.approvaltests.reporters.DelayedClipboardReporter;
 import org.approvaltests.reporters.ImageWebReporter;
 import org.approvaltests.reporters.UseReporter;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@UseReporter(ImageWebReporter.class)
+@UseReporter({ImageWebReporter.class, DelayedClipboardReporter.class})
 public class SampleTests {
   /*
   2. New cells have color
@@ -28,12 +29,7 @@ public class SampleTests {
     @Test
     public void testBlinker() {
         Game game = new Game((x, y) -> (2 <= x && x <= 4 && y == 2) ? Cell.Red : Cell.Dead);
-        AwtApprovals.verifySequence(2, (Integer n) -> {
-            if (n == 0) {
-                return game;
-            }
-            return game.advanceTurn();
-        });
+        verify(game, 2);
         // test color of cell
 
         assertEquals(Cell.Red, game.getCell(3, 2));
@@ -42,7 +38,26 @@ public class SampleTests {
     @Test
     public void testSquare() {
         Game game = createGame(_(1, 1, Cell.Red), _(1, 2, Cell.Blue), _(2, 1, Cell.Yellow), _(2, 2, Cell.Green));
-        AwtApprovals.verifySequence(2, (Integer n) -> {
+        verify(game, 2);
+    }
+
+    @Test
+    public void testBeacon() {
+        Game game = createGame(
+                _(1, 1, Cell.Green),
+                _(1, 2, Cell.Green),
+                _(2, 1, Cell.Green),
+                _(2, 2, Cell.Green),
+                _(3, 3, Cell.Gray),
+                _(3, 4, Cell.Yellow),
+                _(4, 3, Cell.Red),
+                _(4, 4, Cell.Blue)
+                );
+        verify(game, 4);
+    }
+
+    private void verify(Game game, int numberOfFrames) {
+        AwtApprovals.verifySequence(numberOfFrames, (Integer n) -> {
             if (n == 0) {
                 return game;
             }
@@ -50,15 +65,15 @@ public class SampleTests {
         });
     }
 
-    private Game createGame(Applesauce... applesauce) {
+    private Game createGame(StartingState... startingState) {
         return new Game((x, y) -> {
-            final Applesauce first = Query.first(applesauce, a -> a.x == x && a.y == y);
+            final StartingState first = Query.first(startingState, a -> a.x == x && a.y == y);
             return first == null ? Cell.Dead : first.color;
         });
     }
 
-    private Applesauce _(int x, int y, Cell color) {
-        return new Applesauce(x, y, color);
+    private StartingState _(int x, int y, Cell color) {
+        return new StartingState(x, y, color);
     }
 
     @Test

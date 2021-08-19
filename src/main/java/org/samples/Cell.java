@@ -1,9 +1,11 @@
 package org.samples;
 
+import com.spun.util.Colors;
+
 import java.awt.*;
 
 public enum Cell {
-    Dead(Color.cyan),
+    Dead(Colors.Grays.Gainsboro),
     Red(Color.red),
     Green(Color.green),
     Yellow(Color.yellow),
