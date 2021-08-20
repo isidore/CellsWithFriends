@@ -2,6 +2,7 @@ package org.samples;
 
 import com.spun.swing.Paintable;
 import org.lambda.actions.Action0;
+import org.lambda.actions.Action4;
 import org.lambda.functions.Function2;
 import org.lambda.query.Query;
 import org.lambda.query.Queryable;
@@ -11,8 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Game implements Paintable {
-    public static  int NumberOfCells = 20;
-    public static  int CellSizeInPixels = 10;
+    public int NumberOfCells = 20;
+    public int CellSizeInPixels = 10;
+    public Action4<Integer,Integer,Integer,Graphics> draw = (x1,y1, size, g) -> g.fillRect(size * x1, size * y1, size, size);
+
     private Function2<Integer, Integer, Cell> board;
 
     public Game(Function2<Integer, Integer, Cell> board) {
@@ -63,11 +66,11 @@ public class Game implements Paintable {
             for (int y = 0; y < NumberOfCells; y++) {
                 if (board.call(x, y).isAlive()) {
                     graphics.setColor(board.call(x, y).color());
-                    graphics.fillRect(CellSizeInPixels * x, CellSizeInPixels * y, CellSizeInPixels, CellSizeInPixels);
-                } else {
-                    graphics.setColor(Color.black);
-                    graphics.drawRect(CellSizeInPixels * x, CellSizeInPixels * y, CellSizeInPixels, CellSizeInPixels);
+                    draw.call(x,y,CellSizeInPixels,graphics);
                 }
+                graphics.setColor(Color.black);
+                graphics.drawRect(CellSizeInPixels * x, CellSizeInPixels * y, CellSizeInPixels, CellSizeInPixels);
+
             }
         }
     }

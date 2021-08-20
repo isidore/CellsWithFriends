@@ -1,6 +1,7 @@
 package org.samples;
 
 
+import com.spun.util.Colors;
 import com.spun.util.logger.SimpleLogger;
 import org.approvaltests.awt.AwtApprovals;
 import org.approvaltests.reporters.DelayedClipboardReporter;
@@ -9,6 +10,8 @@ import org.approvaltests.reporters.UseReporter;
 import org.junit.jupiter.api.Test;
 import org.lambda.query.Query;
 
+import java.awt.*;
+import java.time.Duration;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,7 +60,11 @@ public class SampleTests {
     }
 
     private void verify(Game game, int numberOfFrames) {
-        AwtApprovals.verifySequence(numberOfFrames, (Integer n) -> {
+        verify(game, numberOfFrames, Duration.ofMillis(500));
+    }
+
+    private void verify(Game game, int numberOfFrames, Duration duration) {
+        AwtApprovals.verifySequence(numberOfFrames, duration, (Integer n) -> {
             if (n == 0) {
                 return game;
             }
@@ -90,4 +97,39 @@ public class SampleTests {
             return game;
         });
     }
+    @Test
+    public void testSample1() {
+        Game game = createGame(
+                _(1, 1, Cell.Green),
+                _(2, 3, Cell.Green),
+                _(3, 1, Cell.Blue)
+        );
+        game.NumberOfCells = 5;
+        game.CellSizeInPixels =40;
+        setCircleDrawer(game);
+        verify(game, 3, Duration.ofMillis(1200));
+    }
+
+    private void setCircleDrawer(Game game) {
+        game.draw = (x, y, s, g) -> {
+            int b = 4;
+            g.fillOval(x * s + b, y * s + b, s - 2*b, s - 2*b);
+            g.setColor(Colors.Grays.DarkSlateGray);
+            g.drawOval(x * s + b, y * s + b, s - 2*b, s - 2*b);
+        };
+    }
+
+    @Test
+    public void testSample2() {
+        Game game = createGame(
+                _(1, 1, Cell.Yellow),
+                _(3, 3, Cell.Red),
+                _(2, 1, Cell.Green)
+        );
+        game.NumberOfCells = 5;
+        game.CellSizeInPixels =40;
+        setCircleDrawer(game);
+        verify(game, 3, Duration.ofMillis(1200));
+    }
+
 }
