@@ -1,7 +1,6 @@
 package org.samples;
 
 import com.spun.swing.Paintable;
-import com.spun.util.Colors;
 import org.lambda.actions.Action0;
 import org.lambda.functions.Function2;
 import org.lambda.query.Query;
@@ -12,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Game implements Paintable {
+    public static  int NumberOfCells = 20;
+    public static  int CellSizeInPixels = 10;
     private Function2<Integer, Integer, Cell> board;
 
     public Game(Function2<Integer, Integer, Cell> board) {
@@ -50,22 +51,22 @@ public class Game implements Paintable {
 
     @Override
     public Dimension getSize() {
-        return new Dimension(200, 200);
+        return new Dimension(NumberOfCells* CellSizeInPixels, NumberOfCells* CellSizeInPixels);
     }
 
     @Override
     public void paint(Graphics graphics) {
         graphics.setColor(Cell.Dead.color());
-        graphics.fillRect(0, 0, 200, 200);
-        int size = 10;
-        for (int x = 0; x < 20; x++) {
-            for (int y = 0; y < 20; y++) {
+        final Dimension s = getSize();
+        graphics.fillRect(0, 0, s.width, s.height);
+        for (int x = 0; x < NumberOfCells; x++) {
+            for (int y = 0; y < NumberOfCells; y++) {
                 if (board.call(x, y).isAlive()) {
                     graphics.setColor(board.call(x, y).color());
-                    graphics.fillRect(size * x, size * y, size, size);
+                    graphics.fillRect(CellSizeInPixels * x, CellSizeInPixels * y, CellSizeInPixels, CellSizeInPixels);
                 } else {
                     graphics.setColor(Color.black);
-                    graphics.drawRect(size * x, size * y, size, size);
+                    graphics.drawRect(CellSizeInPixels * x, CellSizeInPixels * y, CellSizeInPixels, CellSizeInPixels);
                 }
             }
         }
