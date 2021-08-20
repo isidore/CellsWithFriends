@@ -2,29 +2,17 @@
 
 [![Build Status](../../workflows/build/badge.svg?branch=master)](../../actions?query=build%3Amaster)
 
+## Retro
 
-This is a starter project for:
-
-* ApprovalTests in java - see [ApprovalTests.java](https://github.com/approvals/ApprovalTests.java)
-* Junit
-* Maven
-
-Works on Mac, Linux and Windows.
-
-Feel free to copy and go...
-
-## Starting Point
-
-The tests in [SampleTests](https://github.com/approvals/ApprovalTests.java.StarterProject/blob/master/src/test/java/org/samples/SampleTests.java) should pass, and then you should delete/modify as needed to get started.
-
-
-Notes:
-
-* For more information, see the [ApprovalTests.java User Guide](https://github.com/approvals/ApprovalTests.Java/blob/master/approvaltests/docs/README.md#top)
-* You will need a Diff tool.
-* Suggestions: 
-    * Mac: [DiffMerge](https://sourcegear.com/diffmerge/)
-    * Windows: [WinMerge](winmerge.org/)
-    * Linux: [meld](http://meldmerge.org/)
+1. Green -> all different colors -> square
+1. AppleSauce -> _() -> defining board
+1. Feature: stay the same color when "staying alive"
+1. Beacon Cell was green but thought was red -> only seeing 2 frames
+1. Beacon all green -> different colors
+1. Changed background color
+1. counting number of colors neighbors had
+1. rename to cell state
+1. Feature: Cells becomes color of majority   
+1. Feature: if max == 1 Gray comes alive
 
 
